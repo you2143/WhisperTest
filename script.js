@@ -42,7 +42,7 @@ function callApi(){
   const formData = new FormData();
   formData.append('file', audioBlob, "test.mp3");
   formData.append('model', 'whisper-1');
-  const authorization = 'Bearer ' + apiKey.nodeValue
+  const authorization = 'Bearer ' + apiKey.value
 
   fetch('https://api.openai.com/v1/audio/transcriptions', {
     method: 'POST',
