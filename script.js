@@ -9,15 +9,15 @@ const resultLabel = document.getElementById('result');
 
 startButton.addEventListener('click', async () => {
   try {
-    const stream = await navigator.mediaDevices.getUserMedia({ audio: true, video: true });
-    mediaRecorder = new MediaRecorder(stream, { mimeType: "video/webm;codecs=vp9" });
+    const stream = await navigator.mediaDevices.getUserMedia({audio: true});
+    mediaRecorder = new MediaRecorder(stream);
 
     mediaRecorder.addEventListener("dataavailable", event => {
       chunks.push(event.data);
     });
 
     mediaRecorder.addEventListener("stop", () => {
-      audioBlob = new Blob(chunks, { type: "video/webm;codecs=vp9" });
+      audioBlob = new Blob(chunks, { type: "audio/mp3" });
       chunks = [];
     });
 
@@ -40,7 +40,7 @@ stopButton.addEventListener('click', () => {
 
 function callApi(){
   const formData = new FormData();
-  formData.append('file', audioBlob, "test.webm");
+  formData.append('file', audioBlob, "test.mp3");
   formData.append('model', 'whisper-1');
   const authorization = 'Bearer ' + apiKey.value;
 
