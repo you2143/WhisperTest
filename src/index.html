@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Whisper API 実行テスト</title>
+</head>
+<body>
+    <h1>Whisper API 実行テスト</h1>
+    <div>
+      <label>テキストボックスにAPIキーを入れてから、録音開始してください。</label>
+      <br>
+      <input id="apiKey" type="text"/>
+    </div>
+    <button id="start">録音開始</button>
+    <button id="stop">録音終了 ＆ 音声解析結果出力</button>
+    <div style="background-color:aqua">
+      <label id="result">結果がここに出ます。</label>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>
