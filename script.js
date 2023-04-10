@@ -5,7 +5,8 @@ let audioBlob;
 const apiKey = document.getElementById('apiKey');
 const startButton = document.getElementById('start');
 const stopButton = document.getElementById('stop');
-const resultLabel = document.getElementById('result');
+const transcriptionsResult = document.getElementById('transcriptionsResult');
+const translationsResultResult = document.getElementById('translationsResult');
 
 startButton.addEventListener('click', async () => {
   try {
@@ -33,12 +34,13 @@ stopButton.addEventListener('click', () => {
   const checkInterval = setInterval(() => {
     if (mediaRecorder.state === 'inactive') {
       clearInterval(checkInterval);
-      callApi();
+      callTranscriptionsApi();
+      callTranslationsApi();
     }
   }, 100);
 });
 
-function callApi(){
+function callTranscriptionsApi(){
   const formData = new FormData();
   formData.append('file', audioBlob, "test.mp3");
   formData.append('model', 'whisper-1');
@@ -52,6 +54,24 @@ function callApi(){
     body: formData
   })
   .then(res => res.json())
-  .then(data => resultLabel.innerText = JSON.stringify(data, null, " "))
+  .then(data => transcriptionsResult.innerText = JSON.stringify(data, null, " "))
+  .catch(error => console.error(error));
+}
+
+function callTranslationsApi(){
+  const formData = new FormData();
+  formData.append('file', audioBlob, "test.mp3");
+  formData.append('model', 'whisper-1');
+  const authorization = 'Bearer ' + apiKey.value;
+
+  fetch('https://api.openai.com/v1/audio/translations', {
+    method: 'POST',
+    headers: {
+      'Authorization': authorization
+    },
+    body: formData
+  })
+  .then(res => res.json())
+  .then(data => translationsResultResult.innerText = JSON.stringify(data, null, " "))
   .catch(error => console.error(error));
 }
