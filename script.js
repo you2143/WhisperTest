@@ -6,7 +6,7 @@ const apiKey = document.getElementById('apiKey');
 const startButton = document.getElementById('start');
 const stopButton = document.getElementById('stop');
 const transcriptionsResult = document.getElementById('transcriptionsResult');
-const translationsResultResult = document.getElementById('translationsResult');
+const translationsResult = document.getElementById('translationsResult');
 
 startButton.addEventListener('click', async () => {
   try {
@@ -62,16 +62,18 @@ function callTranslationsApi(){
   const formData = new FormData();
   formData.append('file', audioBlob, "test.mp3");
   formData.append('model', 'whisper-1');
-  const authorization = 'Bearer ' + apiKey.value;
-
-  fetch('https://api.openai.com/v1/audio/translations', {
+  const options = {
     method: 'POST',
     headers: {
-      'Authorization': authorization
+        'Authorization': `Bearer ${apiKey.value}`
     },
     body: formData
-  })
-  .then(res => res.json())
-  .then(data => translationsResultResult.innerText = JSON.stringify(data, null, " "))
-  .catch(error => console.error(error));
+  };
+
+  const url = new URL('https://api.openai.com/v1/audio/translations');
+
+  fetch(url, options)
+    .then(res => res.json())
+    .then(data => translationsResult.innerText = JSON.stringify(data, null, " "))
+    .catch(error => console.error(error));
 }
